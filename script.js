@@ -3,6 +3,9 @@ var get = function(id) {
 }
 
 var divider = "\n------------------------------------------------------";
+console.log("Golden Sun Battle Sim" + divider);
+console.log("Enter - Game.commands() - to view all usable functions" + divider);
+
 var that;
 var gameCommandsArray = ["adventurer.adventurerData()","adventurer.addToInventory()","adventurer.viewInventory()", "adventurer.addSpell(spell)",
                 "adventurer.viewSpells()", "adventurer.setWeapon(woodenMeleeWeapon || woodenRangeWeapon)",
@@ -23,14 +26,14 @@ var Game = {
             health : 40,
             attack : "Skeletal Slash",
             damage : 9,
-            itemList: ["Wooden Sword", "HP Pot", "Brass Guard"]
+            itemList: ["Wooden Sword", "HP Pot", "Brass Guard", "Nothing"]
         }, 
         rat : {
             name : "Vale Rat",
             health : 20,
             attack : "Scratch",
             damage : 7,
-            itemList: ["MP Pot", "Wooden Staff"]
+            itemList: ["MP Pot", "Wooden Staff", "Nothing"]
         }, 
     },
     enemyHealth : undefined,
@@ -82,7 +85,7 @@ var woodenRangeWeapon = {
     mana : 5,
     name : "Wooden Staff",
     uses: 40,
-    info : "A wooden staff with a rock-hard tip" // ( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)
+    info : "A wooden staff with a rock-hard tip"
 };
 
 Adventurer.prototype.addToInventory = function(item) {
@@ -201,7 +204,8 @@ Adventurer.prototype.attack = function(){
             console.log(this.name + "'s" + " party has defeated " + Game.enemy.name + "!" + divider);
             for(var i = 0; i < 1; i++){
                 var loot = Game.enemy.itemList[Math.floor(Math.random()*Game.enemy.itemList.length)];
-                this.addToInventory(loot);
+                if(loot == "Nothing") { console.log( Game.enemy.name + " did not drop anything"); }
+                else { this.addToInventory(loot) };
                 console.log(this.name + " looted " + loot + " from " + Game.enemy.name);
             }
             Game.enemy = undefined;
@@ -238,6 +242,3 @@ isaac.addSpell("Push");
 
 mia.addSpell("Soothing Waters");
 mia.addSpell("Sleet");
-
-console.log("Golden Sun Battle Sim" + divider);
-console.log("Enter - Game.commands() - to view all usable functions" + divider);
