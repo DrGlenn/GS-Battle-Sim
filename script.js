@@ -101,7 +101,7 @@ Adventurer.prototype.setWeapon = function(weapon) {
         this.inventory.push(weapon.name); 
     }
     else if(weapon == woodenRangeWeapon){
-        this.weapon = woodenRangeWeapon; Game.gameItems.push(weapon);
+        this.weapon = woodenRangeWeapon;
         this.inventory.push(weapon.name);
     }
 }
