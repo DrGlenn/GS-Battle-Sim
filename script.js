@@ -82,7 +82,7 @@ var woodenRangeWeapon = {
     mana : 5,
     name : "Wooden Staff",
     uses: 40,
-    info : "A wooden staff with a rock-hard tip"
+    info : "A wooden staff with a rock-hard tip" // ( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)( ͡° ͜ʖ ͡°)
 };
 
 Adventurer.prototype.addToInventory = function(item) {
