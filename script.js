@@ -22,14 +22,14 @@ var Game = {
             name : "Skeleton Warrior",
             health : 40,
             attack : "Skeletal Slash",
-            damage : 6,
+            damage : 9,
             itemList: ["Wooden Sword", "HP Pot", "Brass Guard"]
         }, 
         rat : {
             name : "Vale Rat",
             health : 20,
             attack : "Scratch",
-            damage : 2,
+            damage : 7,
             itemList: ["MP Pot", "Wooden Staff"]
         }, 
     },
@@ -187,12 +187,16 @@ Adventurer.prototype.battle = function(){
 }
 
 Adventurer.prototype.attack = function(){
+    if(Game.enemyHealth > 0){
     while(Game.playerTurn){
         damage = this.weapon.damage + (this.attackPower * 0.5);
         Game.enemyHealth -= damage;
         console.log(this.name +  " hit " + Game.enemy.name + " for " + damage + "!");
-        console.log(Game.enemy.name + " HP: " + Game.enemyHealth + divider);
-        if(Game.enemyHealth <= 0){
+        if(Game.enemyHealth < 0) { Game.enemyHealth = 0; console.log(Game.enemy.name + " HP: " + Game.enemyHealth + divider); }
+        else { console.log(Game.enemy.name + " HP: " + Game.enemyHealth + divider); }
+        Game.playerTurn = false;
+    }
+    if(Game.enemyHealth <= 0){
             Game.enemyHealth = 0;
             console.log(this.name + "'s" + " party has defeated " + Game.enemy.name + "!" + divider);
             for(var i = 0; i < 1; i++){
@@ -202,7 +206,20 @@ Adventurer.prototype.attack = function(){
             }
             Game.enemy = undefined;
         }
-        Game.playerTurn = false;
+    if(!Game.playerTurn && Game.enemyHealth > 0){
+        var critCheck = Math.floor(Math.random()*10);
+        if(critCheck == 9) {
+            this.health -= Game.enemy.damage * 1.5;
+            var critDamage = Game.enemy.damage * 1.5;
+            console.log(">> CRITICAL HIT BONUS <<");
+            console.log("**" + Game.enemy.name + " hits " + this.name + " for " + critDamage + "!**");
+        }
+        else {
+            this.health -= Game.enemy.damage;
+            console.log("**" + Game.enemy.name + " hits " + this.name + " for " + Game.enemy.damage + "!**");
+        }
+
+    }
     }
     Game.playerTurn = true;
 }
