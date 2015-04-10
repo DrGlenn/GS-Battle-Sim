@@ -10,7 +10,7 @@ var gameCommandsArray = ["adventurer.adventurerData()","adventurer.addToInventor
                 "adventurer.playerTwoHealthItem.use()", "adventurer.battle()", "adventurer.attack()"];
 
 var Game = {
-    gameItems : ["HP Pot", "MP Pot", "Brass Guard"], 
+    gameItems : ["HP Pot", "MP Pot", "Brass Guard", "Wooden Sword", "Wooden Staff"], 
     commands : function(){
         var i = 0;
         while(i < gameCommandsArray.length){ console.log(gameCommandsArray[i] + divider); i++ }
@@ -18,8 +18,20 @@ var Game = {
     enemy : undefined,
     enemyList : ["Skeleton Warrior", "Vale Rat"], 
     gameEnemies : {
-        skeleton : { name : "Skeleton Warrior", health : 40, attack : "Skeletal Slash", damage : 6 }, 
-        rat : { name : "Vale Rat", health : 20, attack : "Scratch", damage : 2 }, 
+        skeleton : {
+            name : "Skeleton Warrior",
+            health : 40,
+            attack : "Skeletal Slash",
+            damage : 6,
+            itemList: ["Wooden Sword", "HP Pot", "Brass Guard"]
+        }, 
+        rat : {
+            name : "Vale Rat",
+            health : 20,
+            attack : "Scratch",
+            damage : 2,
+            itemList: ["MP Pot", "Wooden Staff"]
+        }, 
     },
     enemyHealth : undefined,
     inBattle : false,
@@ -38,7 +50,7 @@ var Adventurer = function(name, health, mana) {
     this.spells = [];
     this.weapon;
     this.level = 1;
-    this.attackPower;
+    this.attackPower = 1;
     /*var experience = 5;
     var neededExperience = experience * 2;
 
@@ -86,11 +98,11 @@ Adventurer.prototype.addSpell = function(spell) {
 Adventurer.prototype.setWeapon = function(weapon) {
     if(weapon == woodenMeleeWeapon){
         this.weapon = woodenMeleeWeapon; 
-        Game.gameItems.push(weapon); 
+        this.inventory.push(weapon.name); 
     }
     else if(weapon == woodenRangeWeapon){
         this.weapon = woodenRangeWeapon; Game.gameItems.push(weapon);
-        Game.gameItems.push(weapon);
+        this.inventory.push(weapon.name);
     }
 }
 
@@ -167,25 +179,27 @@ Adventurer.prototype.battle = function(){
     else{
     Game.inBattle = true;
     Game.enemy = Game.enemyList[Math.floor(Math.random()*Game.enemyList.length)];
+    if(Game.enemy == "Skeleton Warrior"){ Game.enemy = Game.gameEnemies.skeleton; }
+    else{ Game.enemy = Game.gameEnemies.rat; }
     Game.enemyHealth = Game.enemy.health;
-    if(Game.enemy == "Skeleton Warrior"){
-        Game.enemy = Game.gameEnemies.skeleton;
-    }
-    else{
-        Game.enemy = Game.gameEnemies.rat;
-    }
     console.log(this.name + "'s" + " party has encountered " + Game.enemy.name + "(HP:" + Game.enemy.health + ")");
 }
 }
 
 Adventurer.prototype.attack = function(){
     while(Game.playerTurn){
-        Game.enemyHealth -= this.weapon.damage;
-        console.log(this.name +  " hit " + Game.enemy.name + " for " + this.weapon.damage + "!");
+        damage = this.weapon.damage + (this.attackPower * 0.5);
+        Game.enemyHealth -= damage;
+        console.log(this.name +  " hit " + Game.enemy.name + " for " + damage + "!");
         console.log(Game.enemy.name + " HP: " + Game.enemyHealth + divider);
         if(Game.enemyHealth <= 0){
             Game.enemyHealth = 0;
             console.log(this.name + "'s" + " party has defeated " + Game.enemy.name + "!" + divider);
+            for(var i = 0; i < 1; i++){
+                var loot = Game.enemy.itemList[Math.floor(Math.random()*Game.enemy.itemList.length)];
+                this.addToInventory(loot);
+                console.log(this.name + " looted " + loot + " from " + Game.enemy.name);
+            }
             Game.enemy = undefined;
         }
         Game.playerTurn = false;
