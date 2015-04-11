@@ -210,7 +210,7 @@ Adventurer.prototype.attack = function(){
         /*Spell progress
         if(this.spellInUse == true){
             for(var x = 0; x < spellList.length; x++){
-                if(this.currentSpell == spellList[x].name && spellList[x].hostility == true){
+                if(this.currentSpell == spellList[x].name && spellList[x].hostile == true){
                     damage = spellList[x].effect;
                     console.log("testing: " + damage);
                 }
