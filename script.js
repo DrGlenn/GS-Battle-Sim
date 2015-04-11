@@ -54,6 +54,8 @@ var Adventurer = function(name, health, mana) {
     this.weapon;
     this.level = 1;
     this.attackPower = 1;
+    this.spellInUse = false;
+    this.currentSpell = "";
     /*var experience = 5;
     var neededExperience = experience * 2;
 
@@ -121,7 +123,7 @@ var HealthItem = function(adventurer) {
                 this.healthItemName = "HP Pot";
                 this.healAmount = 30;
                 that.health += this.healAmount;
-                console.log(that.name + " Has Used " + this.healthItemName + " For " + this.healAmount + divider);
+                console.log(that.name + " Has Used " + this.healthItemName + " to heal for " + this.healAmount + "HP" + divider);
                 if (that.health > that.maxHealth && that.health < that.maxOverheal) {
                     var overheal = that.health - that.maxHealth;
                     console.log("Overhealed by " + overheal + "!");
@@ -150,14 +152,26 @@ Adventurer.prototype.viewSpells = function() {
 }
 
 Adventurer.prototype.useSpell = function(spell) {
+    if(this.spellInUse == true) { console.log(this.name + " is already charging " + this.currentSpell); }
+    else{
     for (var i = 0; i < this.spells.length; i++) {
         if (this.spells[i] == spell) {
-            console.log("Yep");
+            if(Game.enemy == undefined){
+                this.spellInUse = false;
+                console.log("What are you aiming that " + spell + " at?" + divider);
+                return;
+            }
+            else{
+            this.currentSpell = spell;
+            this.spellInUse = true;
+            console.log(this.name + " is charging " + this.currentSpell + "...");
+            playerTurn = false;
             return;
+        }
         }
     }
     console.log("You don't know how to do that..." + divider);
-
+}
 }
 
 Adventurer.prototype.viewInventory = function() {
@@ -190,9 +204,21 @@ Adventurer.prototype.battle = function(){
 }
 
 Adventurer.prototype.attack = function(){
+    var damage;
     if(Game.enemyHealth > 0){
     while(Game.playerTurn){
+        /*Spell progress
+        if(this.spellInUse == true){
+            for(var x = 0; x < spellList.length; x++){
+                if(this.currentSpell == spellList[x].name && spellList[x].hostility == true){
+                    damage = spellList[x].effect;
+                    console.log("testing: " + damage);
+                }
+            }
+        }
+        else{*/
         damage = this.weapon.damage + (this.attackPower * 0.5);
+    //}
         Game.enemyHealth -= damage;
         console.log(this.name +  " hit " + Game.enemy.name + " for " + damage + "!");
         if(Game.enemyHealth < 0) { Game.enemyHealth = 0; console.log(Game.enemy.name + " HP: " + Game.enemyHealth + divider); }
