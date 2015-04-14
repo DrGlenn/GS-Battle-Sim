@@ -243,10 +243,12 @@ Adventurer.prototype.attack = function(){
             var critDamage = Game.enemy.damage * 1.5;
             console.log(">> CRITICAL HIT BONUS <<");
             console.log("**" + Game.enemy.name + " hits " + this.name + " for " + critDamage + "!**");
+            console.log(this.name + " HP: " + this.health);
         }
         else {
             this.health -= Game.enemy.damage;
             console.log("**" + Game.enemy.name + " hits " + this.name + " for " + Game.enemy.damage + "!**");
+            console.log(this.name + " HP: " + this.health);
         }
 
     }
