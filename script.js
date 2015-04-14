@@ -10,7 +10,7 @@ var that;
 var gameCommandsArray = ["adventurer.adventurerData()","adventurer.addToInventory()","adventurer.viewInventory()", "adventurer.addSpell(spell)",
                 "adventurer.viewSpells()", "adventurer.setWeapon(woodenMeleeWeapon || woodenRangeWeapon)",
                 "adventurer.lotOfPots() -- Adds 50 HP Potions", "adventurer.playerOneHealthItem.use()",
-                "adventurer.playerTwoHealthItem.use()", "adventurer.battle()", "adventurer.attack()"];
+                "adventurer.playerTwoHealthItem.use()", "adventurer.battle()", "adventurer.attack()", "adventurer.give(target, item)"];
 
 var Game = {
     gameItems : ["HP Pot", "MP Pot", "Brass Guard", "Wooden Sword", "Wooden Staff"], 
@@ -258,6 +258,33 @@ Adventurer.prototype.attack = function(){
 
 var isaac = new Adventurer("Isaac", 100, 50);
 var mia = new Adventurer("Mia", 80, 90);
+
+var adventurers = [isaac, mia];
+
+Adventurer.prototype.give = function(target, item){
+	for(var k = 0; k < adventurers.length; k++){
+		if(target == adventurers[k].name){
+			if(target == this.name){
+				console.log("You can't give something to yourself...");
+				return;
+			}
+			else{
+			for(var l = 0; l < this.inventory.length; l++){
+				if(item == this.inventory[l]){
+					adventurers[k].inventory.push(item);
+					this.inventory.splice(l, 1);
+					console.log(this.name + " gave " + item + " to " + adventurers[k].name);
+					return;
+				}
+				else{
+					console.log(this.name + " does not have that item");
+					
+				}
+			}
+		}
+	}
+}
+}
 
 isaac.setWeapon(woodenMeleeWeapon);
 mia.setWeapon(woodenRangeWeapon);
