@@ -131,7 +131,7 @@ var HealthItem = function(adventurer) {
                     console.log(that.name + " cannot " + "be " + "overhealed " + "anymore!");
                     that.health = that.maxOverheal;
                 }
-                that.inventory[x] = "";
+                that.inventory.splice(x, 1);
                 return;
             }
         }
