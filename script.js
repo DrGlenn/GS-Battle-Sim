@@ -6,6 +6,8 @@ var divider = "\n------------------------------------------------------";
 console.log("Golden Sun Battle Sim" + divider);
 console.log("Enter - Game.commands() - to view all usable functions" + divider);
 
+console.log("Adventurers: Isaac and Mia");
+
 var that;
 var gameCommandsArray = ["adventurer.adventurerData()", "adventurer.addToInventory()", "adventurer.viewInventory()",
 "adventurer.addSpell(spell)", "adventurer.viewSpells()", "adventurer.setWeapon(woodenMeleeWeapon || woodenRangeWeapon)",
@@ -243,6 +245,8 @@ Adventurer.prototype.attack = function() {
                 var loot = Game.enemy.itemList[Math.floor(Math.random() * Game.enemy.itemList.length)];
                 if (loot == "Nothing") {
                     console.log(Game.enemy.name + " did not drop anything");
+                    Game.enemy = undefined;
+                    return;
                 } else {
                     this.addToInventory(loot)
                 };
@@ -257,11 +261,11 @@ Adventurer.prototype.attack = function() {
                 var critDamage = Game.enemy.damage * 1.5;
                 console.log(">> CRITICAL HIT BONUS <<");
                 console.log("**" + Game.enemy.name + " hits " + this.name + " for " + critDamage + "!**");
-                console.log(this.name + " HP: " + this.health);
+                console.log(this.name + " HP: " + this.health + divider);
             } else {
                 this.health -= Game.enemy.damage;
                 console.log("**" + Game.enemy.name + " hits " + this.name + " for " + Game.enemy.damage + "!**");
-                console.log(this.name + " HP: " + this.health);
+                console.log(this.name + " HP: " + this.health + divider);
             }
 
         }
