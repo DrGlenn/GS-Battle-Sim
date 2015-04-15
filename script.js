@@ -265,7 +265,7 @@ Adventurer.prototype.give = function(target, item){
 	for(var k = 0; k < adventurers.length; k++){
 		if(target == adventurers[k].name){
 			if(target == this.name){
-				console.log("You can't give something to yourself...");
+				console.log("You can't give something to yourself..." + divider);
 				return;
 			}
 			else{
@@ -273,12 +273,12 @@ Adventurer.prototype.give = function(target, item){
 				if(item == this.inventory[l]){
 					adventurers[k].inventory.push(item);
 					this.inventory.splice(l, 1);
-					console.log(this.name + " gave " + item + " to " + adventurers[k].name);
+					console.log(this.name + " gave " + item + " to " + adventurers[k].name + divider);
 					return;
 				}
-				else{
-					console.log(this.name + " does not have that item");
-					
+				else if(l == this.inventory.length){
+					console.log(this.name + " does not have that item" + divider);
+					return;
 				}
 			}
 		}
