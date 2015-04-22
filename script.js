@@ -17,6 +17,7 @@ var gameCommandsArray = ["adventurer.adventurerData()", "adventurer.addToInvento
 
 var Game = {
     gameItems: ["HP Pot", "MP Pot", "Brass Guard", "Wooden Sword", "Wooden Staff"],
+    rareItems: ["Ivan's Whistle", "Garet's Call"];
     commands: function() {
         var i = 0;
         while (i < gameCommandsArray.length) {
@@ -44,8 +45,8 @@ var Game = {
     },
     enemyHealth: undefined,
     inBattle: false,
-
-    playerTurn: true
+    playerTurn: true,
+    maxWeight: 50
 };
 
 
@@ -84,7 +85,8 @@ var woodenMeleeWeapon = {
     damage: 8,
     name: "Wooden Sword",
     uses: 40,
-    info: "Your weathered but trusty wooden sword"
+    info: "Your weathered but trusty wooden sword",
+    weight: 5
 };
 
 var woodenRangeWeapon = {
@@ -93,12 +95,13 @@ var woodenRangeWeapon = {
     mana: 5,
     name: "Wooden Staff",
     uses: 40,
-    info: "A wooden staff with a rock-hard tip"
+    info: "A wooden staff with a rock-hard tip",
+    weight: 8
 };
 
 Adventurer.prototype.addToInventory = function(item) {
     for (i = 0; i < Game.gameItems.length; i++) {
-        if (item == Game.gameItems[i]) {
+        if (item == Game.gameItems[i] || item == Game.rareItems[i]) {
             this.inventory.push(item);
         }
     }
@@ -327,6 +330,20 @@ Adventurer.prototype.give = function(target, item, amount) {
                     }
                 }
             }
+        }
+    }
+}
+
+Adventurer.prototype.drop = function(item){
+    for(var i = 0; i <= this.inventory.length; i++){
+        if(this.inventory[i] == item){
+            this.inventory.splice(i, 1);
+            console.log(this.name + " has dropped " + item + divider);
+            return;
+        }
+        if(i == this.inventory.length){
+            console.log(this.name + " does not have that item" + divider);
+            return;
         }
     }
 }
