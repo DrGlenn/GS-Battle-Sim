@@ -243,9 +243,11 @@ Adventurer.prototype.attack = function() {
         }
         if (Game.enemyHealth <= 0) {
             Game.enemyHealth = 0;
+            var loot;
             console.log(this.name + "'s" + " party has defeated " + Game.enemy.name + "!" + divider);
             for (var i = 0; i < 1; i++) {
-                var loot = Game.enemy.itemList[Math.floor(Math.random() * Game.enemy.itemList.length)];
+                if(Math.floor(Math.random() * 15) == 5){ loot = Game.rareItems[Math.floor(Math.random() * Game.rareItems.length)]; }
+                else{ loot = Game.enemy.itemList[Math.floor(Math.random() * Game.enemy.itemList.length)]; }
                 if (loot == "Nothing") {
                     console.log(Game.enemy.name + " did not drop anything");
                     Game.enemy = undefined;
