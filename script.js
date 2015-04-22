@@ -17,7 +17,7 @@ var gameCommandsArray = ["adventurer.adventurerData()", "adventurer.addToInvento
 
 var Game = {
     gameItems: ["HP Pot", "MP Pot", "Brass Guard", "Wooden Sword", "Wooden Staff"],
-    rareItems: ["Ivan's Whistle", "Garet's Call"];
+    rareItems: ["Ivan's Whistle", "Garet's Call"],
     commands: function() {
         var i = 0;
         while (i < gameCommandsArray.length) {
